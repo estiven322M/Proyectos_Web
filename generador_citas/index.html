@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Citas</title>
+    <link rel="icon" type="image/png" href="https://www.google.com/s2/u/0/favicons?domain=jhonmendez">
+    <!-- configuracion del favicon -->
+    <!-- En la linea 10, se carga el css de Font Awesome para los iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <!-- En la linea 12, se carga el css principal para este proyecto -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Script, contiene la estructura principal del generador de citas -->
+    <div class="quote-container" id="quote-container">
+        <!-- Quote -->
+        <div class="quote-text"> <!-- Texto de la cita e ícono de comillas -->
+            <i class="fas fa-quote-left"></i>
+            <span id="quote"></span>
+        </div>
+        <!-- Autor -->
+        <div class="quote-author"> <!-- Muestra el autor de la  cita -->
+            <span id="author"></span>
+        </div>
+
+        <!-- Buttons -->
+        <div class="button-container"> <!-- Contiene los botones para generar una nueva cita y para compartir en X -->
+            <button class="twitter-button" id="twitter" title="Tweet This!">
+                <i class="fab fa-twitter"></i>
+            </button>
+            <button id="new-quote">New Quote</button>
+        </div>
+    </div>
+    <!-- Loader, este elemento de carga que se muestra mientras se obtiene una nueva cita-->
+    <div class="loader" id="loader"></div>
+    <!-- Script -->
+    
+    <script src="script.js"></script> <!-- Se carga el archivo Javascript necesarios para la pagina -->
+</body>
+
+</html>
