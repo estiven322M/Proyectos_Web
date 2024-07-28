@@ -6,7 +6,6 @@ const twitterBtn = document.getElementById('twitter');
 const newQuoteBtn = document.getElementById('new-quote');
 const loader = document.getElementById('loader');
 
-
 let apiQuotes = [];
 
 //Loading Spinner Shown
@@ -24,45 +23,44 @@ function complete() {
 //Show New Quote
 function newQuote() { /* Se muestra una cita aleatoria */
     loading();
+    if (!apiQuotes || apiQuotes.length === 0) {
+        console.error('No quotes available.');
+        return;
+    }
     //Pick a random quote from apiQuotes array
-    const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)] /* maneja el caso de que el autor sea desconocido */
+    const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
     //Chek If Author field is blank and replace it with 'Unknown'
-    if (!quote.author) {
-        authorText.textContent = 'Unknown';
-
-    } else {
-        authorText.textContent = quote.author;
-    }
+    authorText.textContent = quote.author || 'Unknown';
     //Check Quote length to determine styling
-    if (quote.text.length > 120) {
-        quoteText.classList.add('long-quote');
-    } else {
-        quoteText.classList.remove('long-quote');
-    }
+    quoteText.classList.toggle('long-quote', quote.text.length > 120);
     //Set Quote, Hide Loader
     quoteText.textContent = quote.text;
     complete();
 }
 
-// Get Quotes From API
-async function getQuotes() { /* obtnemos la cita de una API y la almacenamos en apiQuotes, que luego llama a newQuotes */
+// Get Quotes From Local JSON File
+async function getQuotes() { /* obtenemos la cita de un archivo JSON y la almacenamos en apiQuotes, que luego llama a newQuotes */
     loading();
-    const apiUrl = 'https://type.fit/api/quotes'
+    const apiUrl = 'quotes.json'; // Ruta del archivo JSON
     try {
         const response = await fetch(apiUrl);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
         apiQuotes = await response.json();
+        console.log('Fetched quotes:', apiQuotes); // Verifica que apiQuotes esté correctamente cargado
         newQuote();
     } catch (error) {
-        // Catch Error Here
-        
+        console.error('Error fetching quotes:', error);
     }
 }
 
 //Tweet Quote
 function tweetQuote(){
-    const twitterUrl=`https://x.com/?lang=es=${quoteText.innerText} - ${authorText.innerText}`;
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(quoteText.innerText)} - ${encodeURIComponent(authorText.innerText)}`;
     window.open(twitterUrl, '_blank');
 }
+
 //Event Listeners
 newQuoteBtn.addEventListener('click', newQuote);
 twitterBtn.addEventListener('click', tweetQuote);
